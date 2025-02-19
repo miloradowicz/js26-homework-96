@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthnModule } from './authn/authn.module';
 import { DbModule } from './db/db.module';
 import { SecretController } from './secret/secret.controller';
+import { CocktailsController } from './cocktails/cocktails.controller';
+import { CocktailsService } from './cocktails/cocktails.service';
+import { CocktailsModule } from './cocktails/cocktails.module';
+
+import { CoreModule } from './core/core.module';
 
 @Module({
-  imports: [AuthnModule, DbModule],
-  controllers: [SecretController],
+  imports: [CoreModule, DbModule, CocktailsModule],
+  controllers: [SecretController, CocktailsController],
+  providers: [CocktailsService],
 })
 export class AppModule {}
