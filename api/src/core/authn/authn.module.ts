@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthnService } from './authn.service';
-import { DbModule } from 'src/db/db.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [DbModule],
+  imports: [UserModule],
   providers: [AuthnService],
   exports: [AuthnService],
 })

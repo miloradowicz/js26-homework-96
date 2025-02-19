@@ -5,13 +5,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthnService } from './authn.service';
-import { Request } from 'express';
-
-export type RequestWithPrincipal = Request & { principal: string };
+import { RequestWithPrincipal } from '../types';
 
 @Injectable()
 export class AuthnGuard implements CanActivate {
-  constructor(private readonly authenticationService: AuthnService) {}
+  constructor(private readonly authnService: AuthnService) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<RequestWithPrincipal>();
@@ -21,8 +19,7 @@ export class AuthnGuard implements CanActivate {
       return true;
     }
 
-    const principal =
-      await this.authenticationService.getPrincipalForToken(token);
+    const principal = await this.authnService.getPrincipalForToken(token);
 
     if (!principal) {
       throw new UnauthorizedException();
