@@ -8,7 +8,11 @@ export class ValidationErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
 
-    const error = { errors: exception.errors };
+    const errors = Object.entries(exception.errors).map(([k, v]) => ({
+      [k]: { name: v.name, messages: [v.message] },
+    }));
+
+    const error = { errors };
 
     res.status(400).json(error);
   }

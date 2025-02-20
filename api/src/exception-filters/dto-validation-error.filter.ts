@@ -17,12 +17,14 @@ export class DtoValidationErrorFilter implements ExceptionFilter {
     const errors = exception.errors.reduce(
       (a, x) => ({
         ...a,
-        [x.property]: x.constraints
+        ...(x.constraints
           ? {
-              name: 'ValidationError',
-              message: Object.values(x.constraints),
+              [x.property]: {
+                name: 'ValidationError',
+                messages: Object.values(x.constraints),
+              },
             }
-          : null,
+          : {}),
       }),
       {},
     );

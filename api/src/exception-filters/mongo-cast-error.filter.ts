@@ -8,7 +8,11 @@ export class CastErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
 
-    const error = { errors: { [exception.path]: exception } };
+    const errors = {
+      [exception.path]: { name: exception.name, messages: [exception.message] },
+    };
+
+    const error = { errors };
 
     res.status(400).json(error);
   }

@@ -11,7 +11,7 @@ export const IsMongoDocument =
   ) =>
   (object: object, propertyName: string) =>
     registerDecorator({
-      name: `IsMongoDocument`,
+      name: 'IsMongoDocument',
       target: object.constructor,
       propertyName,
       options,

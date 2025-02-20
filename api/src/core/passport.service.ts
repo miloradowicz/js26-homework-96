@@ -10,13 +10,13 @@ export class PassportService {
   async validateUser(email: string, password: string) {
     const user = await this.userModel.findOne({ email });
 
-    if (user && (await user.checkPassword(password))) {
-      user.generateToken();
-      await user.save();
-
-      return user;
+    if (!user || !(await user.checkPassword(password))) {
+      return null;
     }
 
-    return null;
+    user.generateToken();
+    await user.save();
+
+    return user;
   }
 }

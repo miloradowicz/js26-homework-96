@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, Length, Matches } from 'class-validator';
-import { IsMongoDocument } from '../common/is-mongo-document/is-mongo-document';
+import { IsMongoDocument } from '../common/class-validators/is-mongo-document';
 import { User } from '../user/user.schema';
 import { emailRegex } from '../constants';
 

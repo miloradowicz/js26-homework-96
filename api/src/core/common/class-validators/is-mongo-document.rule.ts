@@ -38,7 +38,7 @@ export class IsMongoDocumentRule implements ValidatorConstraintInterface {
     if (this.e instanceof Error.CastError) {
       return this.e.message;
     } else {
-      return `${args.property} ${!args.constraints[2] ? 'does not exist' : 'exists'}`;
+      return `${args.property} ${!args.constraints[2] ? 'does not exist' : 'already exists'}`;
     }
   }
 }

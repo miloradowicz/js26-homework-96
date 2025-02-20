@@ -12,4 +12,4 @@ import { Cocktail, CocktailSchema } from 'src/schemas/cocktail.schema';
   ],
   exports: [MongooseModule],
 })
-export class DbModule {}
+export class MongoModule {}

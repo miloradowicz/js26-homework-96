@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DbModule } from 'src/db/db.module';
+import { MongoModule } from 'src/mongo/mongo.module';
 import { SeederService } from './seeder.service';
 import { CoreModule } from 'src/core/core.module';
 
 @Module({
-  imports: [CoreModule, DbModule],
+  imports: [CoreModule, MongoModule],
   providers: [SeederService],
 })
 export class SeederModule {}
