@@ -4,13 +4,13 @@ import { join } from 'path';
 import config from 'src/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
-import { CastErrorFilter } from './exception-filters/cast-error.filter';
-import { ValidationErrorFilter } from './exception-filters/validation-error.filter';
 import { useContainer, ValidationError } from 'class-validator';
 import {
   DtoValidationError,
   DtoValidationErrorFilter,
 } from './exception-filters/dto-validation-error.filter';
+import { CastErrorFilter } from './exception-filters/mongo-cast-error.filter';
+import { ValidationErrorFilter } from './exception-filters/mongo-validation-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

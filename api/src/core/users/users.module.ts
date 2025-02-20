@@ -6,10 +6,17 @@ import { LocalStrategy } from '../local.strategy';
 import { PassportService } from '../passport.service';
 import { AuthnService } from '../authn/authn.service';
 import { AuthzService } from '../authz/authz.service';
+import { IsMongoDocumentRule } from '../common/class-validators/is-mongo-document.rule';
 
 @Module({
   imports: [UserModule, PassportModule],
   controllers: [UsersController],
-  providers: [AuthnService, AuthzService, PassportService, LocalStrategy],
+  providers: [
+    AuthnService,
+    AuthzService,
+    PassportService,
+    LocalStrategy,
+    IsMongoDocumentRule,
+  ],
 })
 export class UsersModule {}

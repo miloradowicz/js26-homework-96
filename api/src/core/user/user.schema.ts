@@ -20,8 +20,8 @@ export class User {
   @Prop({ type: String, required: true })
   displayName: string;
 
-  @Prop({ type: String, default: null })
-  avatarUrl: string | null;
+  @Prop({ type: String, required: true })
+  avatarUrl: string;
 
   @Prop({ type: String, required: true })
   password: string;

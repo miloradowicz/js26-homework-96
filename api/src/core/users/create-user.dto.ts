@@ -18,4 +18,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   displayName: string;
+
+  avatar: File;
 }
