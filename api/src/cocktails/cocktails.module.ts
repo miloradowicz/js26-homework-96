@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CocktailsService } from './cocktails.service';
-import { MongoModule } from 'src/mongo/mongo.module';
 import { CocktailsController } from './cocktails.controller';
+import { CocktailModule } from 'src/cocktail/cocktail.module';
+import { CoreModule } from 'src/core/core.module';
 
 @Module({
-  imports: [MongoModule],
+  imports: [CoreModule, CocktailModule],
   controllers: [CocktailsController],
   providers: [CocktailsService],
 })
