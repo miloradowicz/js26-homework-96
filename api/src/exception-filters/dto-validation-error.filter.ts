@@ -20,7 +20,7 @@ export class DtoValidationErrorFilter implements ExceptionFilter {
         ...(x.constraints
           ? {
               [x.property]: {
-                name: 'ValidationError',
+                name: 'DtoValidationError',
                 messages: Object.values(x.constraints),
               },
             }

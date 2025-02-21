@@ -6,7 +6,7 @@ export const IsMongoDocument =
   <TModel extends object>(
     Model: Type<TModel>,
     fieldName?: string,
-    inverse: boolean = false,
+    inverse?: boolean,
     options?: ValidationOptions,
   ) =>
   (object: object, propertyName: string) =>

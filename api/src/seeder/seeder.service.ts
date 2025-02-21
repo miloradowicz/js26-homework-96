@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/core/user/user.schema';
-import { Cocktail } from 'src/schemas/cocktail.schema';
+import { Cocktail } from 'src/cocktail/cocktail.schema';
 import { faker } from '@faker-js/faker';
 
 @Injectable()
@@ -66,7 +66,7 @@ export class SeederService {
       process.stdout.write('Creating cocktails...');
       await this.cocktailModel.create(
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Sweet Sangria',
           imageUrl: '/uploads/fixtures/sweet-sangria.jpg',
           recipe: `Dissolve the sugar in hot water and cool.
@@ -84,9 +84,15 @@ export class SeederService {
             { name: 'Lemon' },
             { name: 'Fresca' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Sloe Gin Cocktail',
           imageUrl: '/uploads/fixtures/sloe-gin-cocktail.jpg',
           recipe: `Stir all ingredients with ice, strain into a cocktail glass, and serve.`,
@@ -96,9 +102,15 @@ export class SeederService {
             { name: 'Dry Vermouth', qty: '1/4 tsp' },
             { name: 'Orange bitters', qty: '1 dash' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Sol Y Sombra',
           imageUrl: '/uploads/fixtures/sol-y-sombra.jpg',
           recipe: `Shake ingredients with ice, strain into a brandy snifter, and serve.
@@ -110,9 +122,15 @@ export class SeederService {
             { name: 'Brandy', qty: '1 1/2 oz' },
             { name: 'Anisette', qty: '1 1/2 oz' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Stone Sour',
           imageUrl: '/uploads/fixtures/stone-sour.jpg',
           recipe: `Shake ingredients with ice, strain into a brandy snifter, and serve.
@@ -126,9 +144,15 @@ Thanks, Kirby.
 
             { name: 'Sweet and sour', qty: '1 oz' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Mojito',
           imageUrl: '/uploads/fixtures/mojito.jpg',
           recipe: `Muddle mint leaves with sugar and lime juice.
@@ -143,9 +167,15 @@ Garnish and serve with straw.`,
             { name: 'Mint', qty: '2-4' },
             { name: 'Soda water' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Old Fashioned',
           imageUrl: '/uploads/fixtures/old-fashioned.jpg',
           recipe: `Place sugar cube in old fashioned glass and saturate with bitters, add a dash of plain water.
@@ -159,9 +189,15 @@ Garnish with orange twist, and a cocktail cherry.`,
             { name: 'Sugar', qty: '1 cube' },
             { name: 'Dash water' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Long Island Tea',
           imageUrl: '/uploads/fixtures/long-island-tea.jpg',
           recipe: `Combine all ingredients (except cola) and pour over ice in a highball glass.
@@ -176,9 +212,15 @@ Decorate with a slice of lemon and serve.`,
             { name: 'Juice of 1/2 lemon' },
             { name: 'Coca-Cola', qty: '1 splash' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Negroni',
           imageUrl: '/uploads/fixtures/negroni.jpg',
           recipe: `Stir into glass over ice, garnish and serve.`,
@@ -188,9 +230,15 @@ Decorate with a slice of lemon and serve.`,
             { name: 'Campari', qty: '1 oz' },
             { name: 'Sweet Vermouth', qty: '1 oz' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Whiskey Sour',
           imageUrl: '/uploads/fixtures/whiskey-sour.jpg',
           recipe: `Shake with ice.
@@ -204,9 +252,15 @@ If served 'On the rocks', strain ingredients into old-fashioned glass filled wit
             { name: 'Cherry', qty: '1' },
             { name: 'Lemon', qty: '1/2 slice' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Dry Martini',
           imageUrl: '/uploads/fixtures/dry-martini.jpg',
           recipe: `Straight: Pour all ingredients into mixing glass with ice cubes.
@@ -219,9 +273,15 @@ Squeeze oil from lemon peel onto the drink, or garnish with olive.`,
             { name: 'Dry Vermouth', qty: '1/3 oz' },
             { name: 'Olive', qty: '1' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Daiquiri',
           imageUrl: '/uploads/fixtures/daiquiri.jpg',
           recipe: `Pour all ingredients into shaker with ice cubes.
@@ -233,9 +293,15 @@ Strain in chilled cocktail glass.`,
             { name: 'Juice of 1/2 lime' },
             { name: 'Powdered sugar', qty: '1 tsp' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Margarita',
           imageUrl: '/uploads/fixtures/margarita.jpg',
           recipe: `Rub the rim of the glass with the lime slice to make the salt stick to it.
@@ -249,9 +315,15 @@ Shake the other ingredients with ice, then carefully pour into the glass.`,
             { name: 'Lime juice', qty: '1 oz' },
             { name: 'Salt' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Manhattan',
           imageUrl: '/uploads/fixtures/manhattan.jpg',
           recipe: `Stirred over ice, strained into a chilled glass, garnished, and served up.`,
@@ -264,9 +336,15 @@ Shake the other ingredients with ice, then carefully pour into the glass.`,
             { name: 'Maraschino cherry', qty: '1' },
             { name: '1 Twist of orange peel' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Moscow Mule',
           imageUrl: '/uploads/fixtures/moscow-mule.jpg',
           recipe: `Combine vodka and ginger beer in a highball glass filled with ice.
@@ -279,9 +357,15 @@ Garnish.`,
             { name: 'Lime juice', qty: '2 oz' },
             { name: 'Ginger ale', qty: '8 oz' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'After Dinner Cocktail',
           imageUrl: '/uploads/fixtures/after-dinner-cocktail.jpg',
           recipe: `Shake all ingredients (except lime wedge) with ice and strain into a cocktail glass.
@@ -293,9 +377,15 @@ Add the wedge of lime and serve.`,
             { name: 'Juice of 1 lime' },
             { name: 'Lime', qty: '1' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'After Supper Cocktail',
           imageUrl: '/uploads/fixtures/after-supper-cocktail.jpg',
           recipe: `Shake all ingredients with ice, strain into a cocktail glass, and serve.`,
@@ -305,9 +395,15 @@ Add the wedge of lime and serve.`,
             { name: 'Apricot brandy', qty: '1 oz' },
             { name: 'Lemon juice', qty: '1/2 tsp' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Alabama Slammer',
           imageUrl: '/uploads/fixtures/alabama-slammer.jpg',
           recipe: `Pour all ingredients (except for lemon juice) over ice in a highball glass.
@@ -319,9 +415,15 @@ Stir, add a dash of lemon juice, and serve.`,
             { name: 'Sloe gin', qty: '1/2 oz' },
             { name: 'Lemon juice', qty: '1 dash' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Ramos Gin Fizz',
           imageUrl: '/uploads/fixtures/ramos-gin-fizz.jpg',
           recipe: `Prepare all the ingredients on the counter to be able to work well and quickly, especially the cream and egg white.
@@ -340,9 +442,15 @@ Ramos Gin Fizz was once drunk as an invigorating drink or even as a breakfast, t
             { name: 'Vanilla extract', qty: '1 drop' },
             { name: 'Soda Water', qty: '2 cl' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: 'Mauresque',
           imageUrl: '/uploads/fixtures/mauresque.jpg',
           recipe: `1 - Pour the Ricard (or pastis) 2 - Pour the orgeat syrup 3 - Finally pour the water and add ice cubes at your convenience.
@@ -353,9 +461,15 @@ Add the ice cubes at the end, otherwise the syrup and pastis do not mix well.`,
             { name: 'Orgeat Syrup', qty: '1 cl' },
             { name: 'Full Glass Water' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: "Planter's Punch",
           imageUrl: '/uploads/fixtures/planters-punch.jpg',
           recipe: `Squeeze an orange and strain the juice.
@@ -370,9 +484,15 @@ Strain into a highball glass and decorate with a pineapple wedge or fruit of you
             { name: 'Sugar Syrup', qty: '1 cl' },
             { name: 'Angostura Bitters', qty: '4 drops' },
           ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
+          ],
         },
         {
-          user: users[this.randomInt(3)]._id,
+          user: users[this.randomInt(3)],
           name: "Cocktails Horse's Neck",
           imageUrl: '/uploads/fixtures/cocktail-horses-neck.jpg',
           recipe: `Wash and brush an organic, untreated lemon, then cut a spiral of lemon peel, using a citrus peel.
@@ -385,6 +505,12 @@ Easy to do, but once you try it you'll love it.`,
             { name: 'Ginger Beer', qty: '100 ml' },
             { name: 'Angostura Bitters', qty: '3 drops' },
             { name: 'Lemon Peel', qty: '1' },
+          ],
+          ratings: [
+            ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
+              user: users[this.randomInt(3)],
+              rating: this.randomInt(10, 1),
+            })),
           ],
         },
       );

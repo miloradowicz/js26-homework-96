@@ -8,9 +8,13 @@ export class ValidationErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
 
-    const errors = Object.entries(exception.errors).map(([k, v]) => ({
-      [k]: { name: v.name, messages: [v.message] },
-    }));
+    const errors = Object.entries(exception.errors).reduce(
+      (a, [k, v]) => ({
+        ...a,
+        [k]: { name: v.name, messages: [v.message] },
+      }),
+      {},
+    );
 
     const error = { errors };
 

@@ -19,7 +19,7 @@ export class IsMongoDocumentRule implements ValidatorConstraintInterface {
       const model =
         this.connection.models[(args.constraints[0] as { name: string }).name];
       const fieldName = args.constraints[1] as string | undefined;
-      const inverse = args.constraints[2] as boolean;
+      const inverse = !!args.constraints[2];
 
       if (!fieldName) {
         return (await model.findById(value)) ? !inverse : inverse;

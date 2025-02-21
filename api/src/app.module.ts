@@ -4,11 +4,11 @@ import { SecretController } from './secret/secret.controller';
 import { CocktailsController } from './cocktails/cocktails.controller';
 import { CocktailsService } from './cocktails/cocktails.service';
 import { CocktailsModule } from './cocktails/cocktails.module';
-
 import { CoreModule } from './core/core.module';
+import { CocktailModule } from './cocktail/cocktail.module';
 
 @Module({
-  imports: [CoreModule, MongoModule, CocktailsModule],
+  imports: [MongoModule, CoreModule, CocktailModule, CocktailsModule],
   controllers: [SecretController, CocktailsController],
   providers: [CocktailsService],
 })

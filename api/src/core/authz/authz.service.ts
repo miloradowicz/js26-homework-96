@@ -13,7 +13,7 @@ export class AuthzService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async checkPermission(context: ExecutionContext) {
+  async checkAuthorization(context: ExecutionContext) {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],

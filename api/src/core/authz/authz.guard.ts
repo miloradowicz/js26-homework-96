@@ -6,6 +6,6 @@ export class AuthzGuard implements CanActivate {
   constructor(private readonly authzService: AuthzService) {}
 
   async canActivate(context: ExecutionContext) {
-    return this.authzService.checkPermission(context);
+    return this.authzService.checkAuthorization(context);
   }
 }

@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document, HydratedDocument, Types } from 'mongoose';
 import { nanoid } from 'nanoid';
 import { compare, genSalt, hash as genHash } from 'bcrypt';
 import config from 'src/config';
 import { emailRegex } from '../constants';
 
 @Schema({ versionKey: false })
-export class User {
+export class User extends Document<Types.ObjectId> {
   @Prop({
     type: String,
     required: true,
+    unique: true,
     validate: {
       validator: (value: string) => emailRegex.test(value),
     },
