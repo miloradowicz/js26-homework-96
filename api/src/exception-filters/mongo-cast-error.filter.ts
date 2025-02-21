@@ -9,7 +9,12 @@ export class CastErrorFilter implements ExceptionFilter {
     const res = ctx.getResponse<Response>();
 
     const errors = {
-      [exception.path]: { name: exception.name, messages: [exception.message] },
+      [exception.path]: {
+        name: exception.name,
+        messages: [
+          `"${exception.value}" is not a valid ${exception.path}; value must be convertible to type "${exception.kind}"`,
+        ],
+      },
     };
 
     const error = { errors };

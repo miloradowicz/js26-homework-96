@@ -11,6 +11,7 @@ import {
 } from './exception-filters/dto-validation-error.filter';
 import { CastErrorFilter } from './exception-filters/mongo-cast-error.filter';
 import { ValidationErrorFilter } from './exception-filters/mongo-validation-error.filter';
+import { ParameterValidationErrorFilter } from './exception-filters/parameter-validation-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -28,6 +29,7 @@ async function bootstrap() {
     new CastErrorFilter(),
     new ValidationErrorFilter(),
     new DtoValidationErrorFilter(),
+    new ParameterValidationErrorFilter(),
   );
   await app.listen(config.server.port);
 }

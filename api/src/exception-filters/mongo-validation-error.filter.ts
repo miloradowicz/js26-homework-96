@@ -11,7 +11,10 @@ export class ValidationErrorFilter implements ExceptionFilter {
     const errors = Object.entries(exception.errors).reduce(
       (a, [k, v]) => ({
         ...a,
-        [k]: { name: v.name, messages: [v.message] },
+        [k]: {
+          name: v.name,
+          messages: [`"${v.value}" is not a valid ${v.path}`],
+        },
       }),
       {},
     );

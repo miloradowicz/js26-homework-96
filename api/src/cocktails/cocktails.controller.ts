@@ -1,17 +1,17 @@
 import {
   Body,
   Controller,
-  ForbiddenException,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { Principal } from 'src/core/common/principal/principal.param-decorator';
 import { User } from 'src/core/user/user.schema';
 import { Cocktail } from 'src/cocktail/cocktail.schema';
@@ -22,6 +22,7 @@ import { join } from 'path';
 import { useStorage } from 'src/core/common/storage/storage';
 import config from 'src/config';
 import { RateCocktailDto } from './rate-cocktail.dto';
+import { ParameterValidationError } from 'src/exception-filters/parameter-validation-error.filter';
 
 @Controller('cocktails')
 export class CocktailsController {
@@ -63,24 +64,32 @@ export class CocktailsController {
 
   @Auth()
   @Get()
-  async getAll(@Principal() principal?: User) {
-    let filters = [{}];
+  async getAll(@Query('user') user?: string, @Principal() principal?: User) {
+    const filters = [{}];
+
+    if (user) {
+      if (!isValidObjectId(user)) {
+        throw new ParameterValidationError('ObjectId', user, 'user');
+      }
+
+      filters.push({ user });
+    }
 
     if (!principal) {
-      filters = [{ isPublished: true }];
+      filters.push({ isPublished: true });
     } else if (principal.role !== 'admin') {
-      filters = [{ isPublished: true }, { user: principal._id }];
+      filters.push({ $or: [{ isPublished: true }, { user: principal._id }] });
     }
 
     const result = await this.cocktailModel.aggregate<
       Omit<Cocktail, 'user' | 'recipe' | 'ingredients'>
     >([
       {
-        $match: { $or: filters },
+        $match: { $and: filters },
       },
       {
         $project: {
-          user: 0,
+          // user: 0,
           recipe: 0,
           ingredients: 0,
         },
@@ -119,21 +128,32 @@ export class CocktailsController {
   @Auth()
   @Get(':id')
   async get(@Param('id') id: string, @Principal() principal?: User) {
-    const result = await this.cocktailModel.findById(id);
+    const filters = [{}];
 
-    if (!result) {
+    if (!isValidObjectId(id)) {
+      throw new ParameterValidationError('ObjectId', id, 'id');
+    }
+
+    if (!principal) {
+      filters.push({ isPublished: true });
+    } else if (principal.role !== 'admin') {
+      filters.push({ $or: [{ isPublished: true }, { user: principal._id }] });
+    }
+
+    const result = await this.cocktailModel.aggregate<Cocktail>([
+      {
+        $match: { $and: filters },
+      },
+      {
+        $match: { _id: new Types.ObjectId(id) },
+      },
+    ]);
+
+    if (!result.length) {
       throw new NotFoundException();
     }
 
-    if (
-      !result.isPublished &&
-      !principal?._id.equals(result.user._id) &&
-      principal?.role !== 'admin'
-    ) {
-      throw new ForbiddenException();
-    }
-
-    return result;
+    return result[0];
   }
 
   @Auth('admin')
@@ -174,7 +194,6 @@ export class CocktailsController {
     } else {
       result.ratings[i].rating = cocktailDto.rating;
     }
-    result.depopulate();
     await result.save();
 
     return result.depopulate();
