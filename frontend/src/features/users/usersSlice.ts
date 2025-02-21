@@ -35,7 +35,7 @@ const slice = createSlice({
       if (isValidationError(state.error) && payload) {
         delete state.error.errors[payload];
 
-        if (Object.keys(state.error.errors).length) {
+        if (!Object.keys(state.error.errors).length) {
           state.error = null;
         }
       } else {
