@@ -1,13 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AuthenticationError, GenericError, User, ValidationError } from '../../types';
+import {
+  AuthenticationError,
+  GenericError,
+  User,
+  ValidationError,
+} from '../../types';
 import { RootState } from '../../app/store';
 import { login, register, logout, loginWithGoogle } from './usersThunk';
+import { isValidationError } from '../../helpers/error-helpers';
 
 interface State {
   user: User | null;
   loading: boolean;
-  error: GenericError | AuthenticationError | ValidationError | null;
+  error: AuthenticationError | ValidationError | GenericError | null;
 }
 
 const initialState: State = {
@@ -20,10 +26,20 @@ const slice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    clearError: (state, { payload }: PayloadAction<string>) => {
-      const _error = state.error as AuthenticationError | ValidationError;
-      if (_error?.errors[payload]) {
-        delete _error.errors[payload];
+    clear: (state) => {
+      state.user = null;
+      state.loading = false;
+      state.error = null;
+    },
+    clearError: (state, { payload }: PayloadAction<string | undefined>) => {
+      if (isValidationError(state.error) && payload) {
+        delete state.error.errors[payload];
+
+        if (Object.keys(state.error.errors).length) {
+          state.error = null;
+        }
+      } else {
+        state.error = null;
       }
     },
   },
@@ -39,7 +55,10 @@ const slice = createSlice({
       })
       .addCase(login.rejected, (state, { payload, error }) => {
         state.loading = false;
-        state.error = payload ?? { error: error.message ?? 'Unknown error' };
+        state.error = payload ?? {
+          type: 'Unknown error',
+          error: error.message ?? 'Unknown error',
+        };
       })
       .addCase(register.pending, (state) => {
         state.loading = true;
@@ -51,7 +70,10 @@ const slice = createSlice({
       })
       .addCase(register.rejected, (state, { payload, error }) => {
         state.loading = false;
-        state.error = payload ?? { error: error.message ?? 'Unknown error' };
+        state.error = payload ?? {
+          type: 'Unknown error',
+          error: error.message ?? 'Unknown error',
+        };
       })
       .addCase(logout.pending, (state) => {
         state.error = null;
@@ -61,7 +83,10 @@ const slice = createSlice({
       })
       .addCase(logout.rejected, (state, { error }) => {
         state.user = null;
-        state.error = { error: error.message ?? 'Unknown error' };
+        state.error = {
+          type: 'Unknown error',
+          error: error.message ?? 'Unknown error',
+        };
       })
       .addCase(loginWithGoogle.pending, (state) => {
         state.loading = true;
@@ -71,15 +96,18 @@ const slice = createSlice({
         state.loading = false;
         state.user = payload.user;
       })
-      .addCase(loginWithGoogle.rejected, (state, { payload, error }) => {
+      .addCase(loginWithGoogle.rejected, (state, { error }) => {
         state.loading = false;
-        state.error = payload ?? { error: error.message ?? 'Unknown error' };
+        state.error = {
+          type: 'Unknown error',
+          error: error.message ?? 'Unknown error',
+        };
       });
   },
 });
 
 export const users = slice.reducer;
-export const { clearError } = slice.actions;
+export const { clearError, clear } = slice.actions;
 
 export const selectUser = (state: RootState) => state.users.user;
 export const selectLoading = (state: RootState) => state.users.loading;

@@ -19,11 +19,17 @@ const UserMenu: FC<Props> = ({ user }) => {
 
   const ref = useRef(null);
 
-  const isUrlRelative = (url: string) => new URL(document.baseURI).origin === new URL(url, document.baseURI).origin;
+  const isUrlRelative = (url: string) =>
+    new URL(document.baseURI).origin === new URL(url, document.baseURI).origin;
 
   const stringToColor = (str: string) =>
     '#' +
-    (Array.from({ length: str.length }, (_, i) => str.charCodeAt(i)).reduce((p, n) => (n + p) << (5 - p), 0) & 0xffffff)
+    (
+      Array.from({ length: str.length }, (_, i) => str.charCodeAt(i)).reduce(
+        (p, n) => (n + p) << (5 - p),
+        0,
+      ) & 0xffffff
+    )
       .toString(16)
       .slice(-6);
 
@@ -40,16 +46,23 @@ const UserMenu: FC<Props> = ({ user }) => {
   return (
     <>
       <Button
-        color='inherit'
+        color="inherit"
         ref={ref}
         endIcon={
           <Avatar
             alt={user.displayName}
-            sx={{ bgcolor: stringToColor(user.displayName), width: 48, height: 48 }}
+            sx={{
+              bgcolor: stringToColor(user.displayName),
+              width: 48,
+              height: 48,
+            }}
             {...(user.avatarUrl
               ? {
                   src: isUrlRelative(user.avatarUrl)
-                    ? new URL(user.avatarUrl as string, new URL('images/', baseURL)).href
+                    ? new URL(
+                        user.avatarUrl as string,
+                        new URL('images/', baseURL),
+                      ).href
                     : user.avatarUrl,
                 }
               : {
@@ -65,11 +78,12 @@ const UserMenu: FC<Props> = ({ user }) => {
         {user.displayName}
       </Button>
       <Menu anchorEl={ref.current} open={open} onClose={() => setOpen(false)}>
-        {user.role === 'admin' && <MenuItem onClick={() => closeAndNavigate('/admin')}>Admin page</MenuItem>}
-        <MenuItem onClick={() => closeAndNavigate('/artist/new')}>Add new artist</MenuItem>
-        <MenuItem onClick={() => closeAndNavigate('/album/new')}>Add new album</MenuItem>
-        <MenuItem onClick={() => closeAndNavigate('/track/new')}>Add new track</MenuItem>
-        <MenuItem onClick={() => closeAndNavigate('/track_history')}>Track history</MenuItem>
+        <MenuItem onClick={() => closeAndNavigate('/cocktails/mine')}>
+          My cocktails
+        </MenuItem>
+        <MenuItem onClick={() => closeAndNavigate('/cocktails/new')}>
+          Add new cocktail
+        </MenuItem>
         <MenuItem onClick={handleClick}>Logout</MenuItem>
       </Menu>
     </>

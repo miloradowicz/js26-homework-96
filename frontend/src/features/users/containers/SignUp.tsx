@@ -2,25 +2,38 @@ import { isAxiosError } from 'axios';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { Link as routerLink, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import { Box, Button, Container, Grid2 as Grid, Link, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid2 as Grid,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { AddAPhoto } from '@mui/icons-material';
 
-import { AuthenticationError, GenericError, ValidationError } from '../../../types';
+import { AuthenticationError, GenericError } from '../../../types';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectLoading, selectError, clearError } from '../usersSlice';
 import { loginWithGoogle, register } from '../usersThunk';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 import { GoogleLogin } from '@react-oauth/google';
+import {
+  isAuthenticationError,
+  isGenericError,
+  isValidationError,
+} from '../../../helpers/error-helpers';
 
 interface FormData {
-  username: string;
+  email: string;
   displayName: string;
   password: string;
   avatar: File | '';
 }
 
 const initialData: FormData = {
-  username: '',
+  email: '',
   displayName: '',
   password: '',
   avatar: '',
@@ -36,14 +49,15 @@ const SignUp = () => {
   const loading = useAppSelector(selectLoading);
 
   const getFieldError = (fieldName: string) => {
-    try {
-      return (error as ValidationError)?.errors[fieldName].message;
-    } catch {
-      return undefined;
+    if (isValidationError(error) && fieldName in error.errors) {
+      return error.errors[fieldName].messages.join('\n');
     }
+    return undefined;
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) => {
     dispatch(clearError(e.target.name));
 
     setData((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -61,16 +75,29 @@ const SignUp = () => {
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(register({ ...data, avatar: data.avatar !== '' ? data.avatar : null })).unwrap();
+      await dispatch(
+        register({ ...data, avatar: data.avatar !== '' ? data.avatar : null }),
+      ).unwrap();
       navigate('/');
     } catch (e) {
-      if (!(e as AuthenticationError).errors && (e as GenericError).error) {
-        enqueueSnackbar((e as GenericError).error, { variant: 'error' });
+      if (isAuthenticationError(e) || isValidationError(error)) {
+        return;
+      }
+
+      if (isGenericError(e)) {
+        enqueueSnackbar(e.error, { variant: 'error' });
       } else if (isAxiosError(e) && e.response?.data.error) {
-        return void enqueueSnackbar(`${e.message}: ${e.response.data.error}`, { variant: 'error' });
+        return void enqueueSnackbar(`${e.message}: ${e.response.data.error}`, {
+          variant: 'error',
+        });
       } else if (e instanceof Error) {
         return void enqueueSnackbar(e.message, { variant: 'error' });
-      } else if (((e): e is { message: string } => 'message' in (e as { message: string }))(e)) {
+      } else if (
+        typeof e === 'object' &&
+        !!e &&
+        'message' in e &&
+        typeof e.message === 'string'
+      ) {
         return void enqueueSnackbar(e.message, { variant: 'error' });
       }
 
@@ -84,17 +111,24 @@ const SignUp = () => {
       navigate('/');
     } catch (e) {
       if (isAxiosError(e) && e.response?.data.error) {
-        return void enqueueSnackbar(`${e.message}: ${e.response.data.error}`, { variant: 'error' });
+        return void enqueueSnackbar(`${e.message}: ${e.response.data.error}`, {
+          variant: 'error',
+        });
       } else if (e instanceof Error) {
         return void enqueueSnackbar(e.message, { variant: 'error' });
-      } else if (((e): e is { message: string } => 'message' in (e as { message: string }))(e)) {
+      } else if (
+        typeof e === 'object' &&
+        !!e &&
+        'message' in e &&
+        typeof e.message === 'string'
+      ) {
         return void enqueueSnackbar(e.message, { variant: 'error' });
       }
     }
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -103,32 +137,32 @@ const SignUp = () => {
           alignItems: 'center',
         }}
       >
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12 }}>
               <TextField
                 required
                 fullWidth
-                label='Username'
-                name='username'
-                autoComplete='username'
-                value={data.username}
+                label="Email"
+                name="email"
+                autoComplete="email"
+                value={data.email}
                 onChange={handleChange}
-                error={!!getFieldError('username')}
-                helperText={getFieldError('username')}
+                error={!!getFieldError('email')}
+                helperText={getFieldError('email')}
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <TextField
                 required
                 fullWidth
-                label='Password'
-                name='password'
-                type='password'
-                autoComplete='new-password'
+                label="Password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
                 value={data.password}
                 onChange={handleChange}
                 error={!!getFieldError('password')}
@@ -139,9 +173,9 @@ const SignUp = () => {
               <TextField
                 required
                 fullWidth
-                label='Display name'
-                name='displayName'
-                autoComplete='displayName'
+                label="Display name"
+                name="displayName"
+                autoComplete="displayName"
                 value={data.displayName}
                 onChange={handleChange}
                 error={!!getFieldError('displayName')}
@@ -151,9 +185,9 @@ const SignUp = () => {
             <Grid size={12}>
               <FileInput
                 fullWidth
-                label='Avatar'
-                name='avatar'
-                buttonText='Upload'
+                label="Avatar"
+                name="avatar"
+                buttonText="Upload"
                 buttonProps={{
                   disableElevation: true,
                   variant: 'contained',
@@ -167,20 +201,28 @@ const SignUp = () => {
               />
             </Grid>
           </Grid>
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} loading={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            loading={loading}
+          >
             Sign Up
           </Button>
         </Box>
-        <Grid container justifyContent='flex-end'>
+        <Grid container justifyContent="flex-end">
           <Grid>
-            <Link component={routerLink} variant='body2' to='/login'>
+            <Link component={routerLink} variant="body2" to="/login">
               Already have an account? Sign in
             </Link>
           </Grid>
         </Grid>
         <Box py={3}>
-          <Typography gutterBottom>Or join with a third-party provider</Typography>
-          <Grid container justifyContent='center'>
+          <Typography gutterBottom>
+            Or join with a third-party provider
+          </Typography>
+          <Grid container justifyContent="center">
             <Grid>
               <GoogleLogin
                 onSuccess={(res) => {
