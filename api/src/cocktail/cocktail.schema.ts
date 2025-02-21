@@ -14,8 +14,8 @@ export class Cocktail extends Document<Types.ObjectId> {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: String, required: false, default: null })
-  imageUrl: string | null;
+  @Prop({ type: String, required: true })
+  imageUrl: string;
 
   @Prop({ type: String, required: true })
   recipe: string;
@@ -32,7 +32,7 @@ export class Cocktail extends Document<Types.ObjectId> {
     default: [],
     required: true,
   })
-  ingredients: { name: string; qty: string | null }[];
+  ingredients: { name: string; qty?: string }[];
 
   @Prop({
     type: [

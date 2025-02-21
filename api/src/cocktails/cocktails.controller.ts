@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -72,7 +73,7 @@ export class CocktailsController {
         throw new ParameterValidationError('ObjectId', user, 'user');
       }
 
-      filters.push({ user });
+      filters.push({ user: new Types.ObjectId(user) });
     }
 
     if (!principal) {
@@ -89,7 +90,7 @@ export class CocktailsController {
       },
       {
         $project: {
-          // user: 0,
+          user: 0,
           recipe: 0,
           ingredients: 0,
         },
@@ -150,25 +151,25 @@ export class CocktailsController {
     ]);
 
     if (!result.length) {
-      throw new NotFoundException();
+      return;
     }
 
     return result[0];
   }
 
   @Auth('admin')
-  @Patch(':id')
-  async togglePublish(@Param('id') id: string) {
+  @Patch('publish/:id')
+  async publish(@Param('id') id: string) {
     const result = await this.cocktailModel.findById(id);
 
     if (!result) {
       throw new NotFoundException();
     }
 
-    result.isPublished = !result.isPublished;
+    result.isPublished = true;
     await result.save();
 
-    return result;
+    return;
   }
 
   @Auth('user', 'admin')
@@ -196,6 +197,14 @@ export class CocktailsController {
     }
     await result.save();
 
-    return result.depopulate();
+    return;
+  }
+
+  @Auth('admin')
+  @Delete(':id')
+  async togglePublish(@Param('id') id: string) {
+    const result = await this.cocktailModel.findByIdAndDelete(id);
+
+    return result;
   }
 }

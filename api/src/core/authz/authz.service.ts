@@ -25,7 +25,7 @@ export class AuthzService {
 
     const principal = context
       .switchToHttp()
-      .getRequest<RequestWithPrincipal>().principal;
+      .getRequest<RequestWithPrincipal>().user;
 
     const user = await this.userModel.findById(principal);
     return !!user && requiredRoles.includes(user.role);

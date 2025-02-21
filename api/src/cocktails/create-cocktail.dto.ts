@@ -12,6 +12,6 @@ export class CreateCocktailDto {
   recipe: string;
 
   @IsNotEmpty()
-  // @IsArray()
-  ingredients: { name: string; qty: string | null }[];
+  @IsArray()
+  ingredients: { name: string; qty?: string }[];
 }

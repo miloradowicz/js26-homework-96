@@ -14,7 +14,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     if (!user) {
       throw new UnauthorizedException({
-        error: 'Invalid email or password',
+        type: 'AuthenticationError',
+        error: {
+          name: 'AuthenticationError',
+          message: 'Invalid email or password',
+        },
       });
     }
 

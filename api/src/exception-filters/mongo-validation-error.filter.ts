@@ -19,8 +19,6 @@ export class ValidationErrorFilter implements ExceptionFilter {
       {},
     );
 
-    const error = { errors };
-
-    res.status(400).json(error);
+    res.status(400).json({ type: 'ValidationError', errors });
   }
 }

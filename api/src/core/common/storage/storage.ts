@@ -1,7 +1,7 @@
-import { nanoid } from 'nanoid';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { promises as fs } from 'fs';
+import { randomUUID } from 'crypto';
 
 export const useStorage = (dest: string) =>
   diskStorage({
@@ -13,6 +13,6 @@ export const useStorage = (dest: string) =>
     },
     filename: (_req, file, cb) => {
       const extension = extname(file.originalname);
-      cb(null, nanoid() + extension);
+      cb(null, randomUUID() + extension);
     },
   });

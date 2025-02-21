@@ -24,7 +24,7 @@ export class AuthnService {
       return false;
     }
 
-    request.principal = principal;
+    request.user = principal;
     return true;
   }
 }

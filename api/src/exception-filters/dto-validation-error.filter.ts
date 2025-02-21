@@ -29,6 +29,6 @@ export class DtoValidationErrorFilter implements ExceptionFilter {
       {},
     );
 
-    res.status(400).json({ errors });
+    res.status(400).json({ type: 'ValidationError', errors });
   }
 }

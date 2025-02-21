@@ -4,5 +4,5 @@ import { RequestWithPrincipal } from 'src/core/types';
 export const Principal = createParamDecorator((_, context) => {
   const request = context.switchToHttp().getRequest<RequestWithPrincipal>();
 
-  return request.principal;
+  return request.user;
 });

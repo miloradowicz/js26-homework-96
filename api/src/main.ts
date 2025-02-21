@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
@@ -12,6 +13,7 @@ import {
 import { CastErrorFilter } from './exception-filters/mongo-cast-error.filter';
 import { ValidationErrorFilter } from './exception-filters/mongo-validation-error.filter';
 import { ParameterValidationErrorFilter } from './exception-filters/parameter-validation-error.filter';
+import { NotFoundExceptionFilter } from './exception-filters/not-found-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -30,6 +32,7 @@ async function bootstrap() {
     new ValidationErrorFilter(),
     new DtoValidationErrorFilter(),
     new ParameterValidationErrorFilter(),
+    new NotFoundExceptionFilter(),
   );
   await app.listen(config.server.port);
 }

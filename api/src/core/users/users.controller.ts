@@ -3,7 +3,7 @@ import {
   Controller,
   Delete,
   Post,
-  Req,
+  UnauthorizedException,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -12,17 +12,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { User } from '../user/user.schema';
 import { Auth } from '../common/auth/auth.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { useStorage } from '../common/storage/storage';
 import { join } from 'path';
 import config from 'src/config';
+import { Principal } from '../common/principal/principal.param-decorator';
+import { GoogleService } from './google.service';
+import { GoogleLoginDto } from './google-login.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly googleService: GoogleService,
+  ) {}
 
   @Post()
   @UseInterceptors(
@@ -57,14 +62,14 @@ export class UsersController {
 
   @UseGuards(AuthGuard('local'))
   @Post('sessions')
-  login(@Req() req: Request & { user: User }) {
-    return req.user;
+  login(@Principal() principal: User) {
+    return { user: principal };
   }
 
   @Auth('user', 'admin')
   @Delete('sessions')
-  async logout(@Req() req: Request & { user: User }) {
-    const user = await this.userModel.findById(req.user._id);
+  async logout(@Principal() principal: User) {
+    const user = await this.userModel.findById(principal._id);
 
     if (user) {
       user.clearToken();
@@ -72,5 +77,45 @@ export class UsersController {
     }
 
     return { user: null };
+  }
+
+  @Post('google')
+  async googleLogin(@Body() googleLogin: GoogleLoginDto) {
+    const ticket = await this.googleService.verifyIdToken({
+      idToken: googleLogin.credential,
+      audience: config.google.clientId,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+
+    const email = payload.email;
+    const id = payload.sub;
+    const displayName = payload.name;
+    const avatarUrl = payload.picture;
+
+    if (!email) {
+      throw new UnauthorizedException();
+    }
+
+    let user = await this.userModel.findOne({ googleId: id });
+
+    if (!user) {
+      user = new this.userModel({
+        email: email,
+        password: crypto.randomUUID(),
+        googleId: id,
+        displayName,
+        avatarUrl,
+      });
+    }
+
+    user.generateToken();
+    await user.save();
+
+    return { user };
   }
 }

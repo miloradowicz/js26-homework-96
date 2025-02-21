@@ -7,6 +7,7 @@ import { PassportService } from '../passport.service';
 import { AuthnService } from '../authn/authn.service';
 import { AuthzService } from '../authz/authz.service';
 import { IsMongoDocumentRule } from '../common/class-validators/is-mongo-document.rule';
+import { GoogleService } from './google.service';
 
 @Module({
   imports: [UserModule, PassportModule],
@@ -17,6 +18,7 @@ import { IsMongoDocumentRule } from '../common/class-validators/is-mongo-documen
     PassportService,
     LocalStrategy,
     IsMongoDocumentRule,
+    GoogleService,
   ],
 })
 export class UsersModule {}
