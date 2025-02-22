@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import {
+  Alert,
   Box,
   Grid2 as Grid,
   List,
@@ -75,6 +76,11 @@ const CocktailDetailedViewer = () => {
             py={2}
             justifyContent={{ sx: 'center' }}
           >
+            {!data.isPublished && (
+              <Alert variant="filled" severity="warning">
+                This cocktail has not yet been accepted by the admin.
+              </Alert>
+            )}
             <Grid>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, md: 4 }}>
