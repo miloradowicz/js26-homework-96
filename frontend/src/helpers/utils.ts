@@ -11,3 +11,9 @@ export const getRatingSummary = (ratings: Rating[]) => {
 
   return { avg: result.sum / result.count, count: result.count };
 };
+
+export const getUserRating = (ratings: Rating[], userId: string) => {
+  const result = ratings.filter((x) => x.user === userId);
+
+  return result.length ? result[0].rating : undefined;
+};

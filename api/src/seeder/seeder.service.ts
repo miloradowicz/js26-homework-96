@@ -87,7 +87,7 @@ export class SeederService {
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -105,7 +105,7 @@ export class SeederService {
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -125,7 +125,7 @@ export class SeederService {
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -147,7 +147,7 @@ Thanks, Kirby.
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -170,7 +170,7 @@ Garnish and serve with straw.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -192,7 +192,7 @@ Garnish with orange twist, and a cocktail cherry.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -215,7 +215,7 @@ Decorate with a slice of lemon and serve.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -233,7 +233,7 @@ Decorate with a slice of lemon and serve.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -255,7 +255,7 @@ If served 'On the rocks', strain ingredients into old-fashioned glass filled wit
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -276,7 +276,7 @@ Squeeze oil from lemon peel onto the drink, or garnish with olive.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -296,7 +296,7 @@ Strain in chilled cocktail glass.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -318,7 +318,7 @@ Shake the other ingredients with ice, then carefully pour into the glass.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -339,7 +339,7 @@ Shake the other ingredients with ice, then carefully pour into the glass.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -360,7 +360,7 @@ Garnish.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -380,7 +380,7 @@ Add the wedge of lime and serve.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -398,7 +398,7 @@ Add the wedge of lime and serve.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -418,7 +418,7 @@ Stir, add a dash of lemon juice, and serve.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -445,7 +445,7 @@ Ramos Gin Fizz was once drunk as an invigorating drink or even as a breakfast, t
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -464,7 +464,7 @@ Add the ice cubes at the end, otherwise the syrup and pastis do not mix well.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -487,7 +487,7 @@ Strain into a highball glass and decorate with a pineapple wedge or fruit of you
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },
@@ -509,7 +509,7 @@ Easy to do, but once you try it you'll love it.`,
           ratings: [
             ...Array.from({ length: this.randomInt(4, -7) }).map(() => ({
               user: users[this.randomInt(3)],
-              rating: this.randomInt(10, 1),
+              rating: this.randomInt(5, 1),
             })),
           ],
         },

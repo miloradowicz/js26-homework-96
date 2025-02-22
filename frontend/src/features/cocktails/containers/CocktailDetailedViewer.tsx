@@ -24,7 +24,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { baseURL } from '../../../constants';
 import noImg from '../../../assets/images/no-img.svg';
 import { ArrowRight } from '@mui/icons-material';
-import { getRatingSummary } from '../../../helpers/utils';
+import { getRatingSummary, getUserRating } from '../../../helpers/utils';
 import { rate } from '../../thunks/cocktailsViewerThunk';
 import { enqueueSnackbar } from 'notistack';
 
@@ -144,16 +144,20 @@ const CocktailDetailedViewer = () => {
                   Recipe:
                 </Typography>
                 <Typography>{data.recipe}</Typography>
-                <Typography component="h5" variant="h6" gutterBottom>
-                  Rate:
-                </Typography>
-                <Rating
-                  name="half-rating"
-                  max={10}
-                  value={getRatingSummary(data.ratings).avg}
-                  precision={1}
-                  onChange={(_, value) => handleRatingChange(value)}
-                />
+                {data.isPublished && user && (
+                  <>
+                    <Typography component="h5" variant="h6" gutterBottom>
+                      Rate:
+                    </Typography>
+                    <Rating
+                      name="half-rating"
+                      max={5}
+                      value={getUserRating(data.ratings, user._id)}
+                      precision={1}
+                      onChange={(_, value) => handleRatingChange(value)}
+                    />
+                  </>
+                )}
               </Box>
             </Grid>
           </Grid>
