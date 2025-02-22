@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Rating,
   Typography,
 } from '@mui/material';
 
@@ -21,9 +22,10 @@ import { load } from '../../thunks/cocktailDetailedViewerThunk';
 import { useNavigate, useParams } from 'react-router-dom';
 import { baseURL } from '../../../constants';
 import noImg from '../../../assets/images/no-img.svg';
-import { Rating } from '../../../types';
 import { ArrowRight } from '@mui/icons-material';
 import { getRatingSummary } from '../../../helpers/utils';
+import { rate } from '../../thunks/cocktailsViewerThunk';
+import { enqueueSnackbar } from 'notistack';
 
 const CocktailDetailedViewer = () => {
   const { id } = useParams();
@@ -49,6 +51,14 @@ const CocktailDetailedViewer = () => {
   useEffect(() => {
     init();
   }, [init, user]);
+
+  const handleRatingChange = async (value: number | null) => {
+    if (id && value) {
+      await dispatch(rate({ id, rating: value }));
+      enqueueSnackbar('Your vote has been accepted', { variant: 'success' });
+      await dispatch(load(id));
+    }
+  };
 
   return (
     <>
@@ -127,6 +137,13 @@ const CocktailDetailedViewer = () => {
               <Typography component="h5" variant="h6" gutterBottom>
                 Rate:
               </Typography>
+              <Rating
+                name="half-rating"
+                max={10}
+                value={getRatingSummary(data.ratings).avg}
+                precision={1}
+                onChange={(_, value) => handleRatingChange(value)}
+              />
             </Grid>
           </Grid>
         )}
