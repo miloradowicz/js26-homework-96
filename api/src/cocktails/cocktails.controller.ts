@@ -50,12 +50,7 @@ export class CocktailsController {
       user: principal,
       ...(file
         ? {
-            imageUrl: join(
-              '/',
-              config.publicPath,
-              'uploads/cocktails',
-              file.filename,
-            ),
+            imageUrl: join('/', 'uploads/cocktails', file.filename),
           }
         : {}),
     });

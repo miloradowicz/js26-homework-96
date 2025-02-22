@@ -50,7 +50,7 @@ const SignUp = () => {
 
   const getFieldError = (fieldName: string) => {
     if (isValidationError(error) && fieldName in error.errors) {
-      return error.errors[fieldName].messages.join('\n');
+      return error.errors[fieldName].messages.join('; ');
     }
     return undefined;
   };
@@ -196,8 +196,8 @@ const SignUp = () => {
                 }}
                 value={data.avatar}
                 onChange={handleFileInputChange}
-                error={!!getFieldError('avatar')}
-                helperText={getFieldError('avatar')}
+                error={!!getFieldError('avatarUrl')}
+                helperText={getFieldError('avatarUrl')}
               />
             </Grid>
           </Grid>

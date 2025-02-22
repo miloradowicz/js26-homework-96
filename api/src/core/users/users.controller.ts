@@ -45,12 +45,7 @@ export class UsersController {
       ...userDto,
       ...(file
         ? {
-            avatarUrl: join(
-              '/',
-              config.publicPath,
-              'uploads/avatars',
-              file.filename,
-            ),
+            avatarUrl: join('/', 'uploads/avatars', file.filename),
           }
         : {}),
     });
