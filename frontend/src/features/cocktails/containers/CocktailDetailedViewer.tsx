@@ -76,33 +76,36 @@ const CocktailDetailedViewer = () => {
             py={2}
             justifyContent={{ sx: 'center' }}
           >
-            {!data.isPublished && (
-              <Alert variant="filled" severity="warning">
-                This cocktail has not yet been accepted by the admin.
-              </Alert>
-            )}
-            <Grid>
-              <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Box
-                    component="img"
-                    borderRadius={5}
-                    sx={{
-                      maxWidth: { md: '100%' },
-                      aspectRatio: '0.6',
-                    }}
-                    alt={data.name}
-                    src={
-                      data.imageUrl
-                        ? new URL(
-                            data.imageUrl,
-                            new URL('uploads/cocktails/', baseURL),
-                          ).href
-                        : noImg
-                    }
-                  />
-                </Grid>
-                <Grid size={{ xs: 12, md: 8 }}>
+            <Grid size={12}>
+              {!data.isPublished && (
+                <Alert variant="filled" severity="warning">
+                  This cocktail has not yet been accepted by the admin.
+                </Alert>
+              )}
+            </Grid>
+            <Grid container spacing={3} size={12}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Box
+                  component="img"
+                  borderRadius={5}
+                  sx={{
+                    maxWidth: { md: '100%' },
+                    aspectRatio: '0.9',
+                    objectFit: 'cover',
+                  }}
+                  alt={data.name}
+                  src={
+                    data.imageUrl
+                      ? new URL(
+                          data.imageUrl,
+                          new URL('uploads/cocktails/', baseURL),
+                        ).href
+                      : noImg
+                  }
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 8 }}>
+                <Box>
                   <Typography component="h2" variant="h5" gutterBottom>
                     {data.name}
                   </Typography>
@@ -132,24 +135,26 @@ const CocktailDetailedViewer = () => {
                       </ListItem>
                     ))}
                   </List>
-                </Grid>
+                </Box>
               </Grid>
             </Grid>
-            <Grid>
-              <Typography component="h5" variant="h6" gutterBottom>
-                Recipe:
-              </Typography>
-              <Typography>{data.recipe}</Typography>
-              <Typography component="h5" variant="h6" gutterBottom>
-                Rate:
-              </Typography>
-              <Rating
-                name="half-rating"
-                max={10}
-                value={getRatingSummary(data.ratings).avg}
-                precision={1}
-                onChange={(_, value) => handleRatingChange(value)}
-              />
+            <Grid size={12}>
+              <Box>
+                <Typography component="h5" variant="h6" gutterBottom>
+                  Recipe:
+                </Typography>
+                <Typography>{data.recipe}</Typography>
+                <Typography component="h5" variant="h6" gutterBottom>
+                  Rate:
+                </Typography>
+                <Rating
+                  name="half-rating"
+                  max={10}
+                  value={getRatingSummary(data.ratings).avg}
+                  precision={1}
+                  onChange={(_, value) => handleRatingChange(value)}
+                />
+              </Box>
             </Grid>
           </Grid>
         )}
